@@ -2,7 +2,7 @@
 function getJsondata() {
 
 
-    $.getJSON("js/test.json", function (data) {
+    $.getJSON("js/test.js", function (data) {
 
         setSelect(data);
         selectChanged(data);
@@ -123,13 +123,13 @@ function randomWheater() {
 //precipitations None, Rain, Thunderstorm, Snow, and Snowstorm.
         var precipitations = randomNumberFromRange(0, 2);
 
-        if(density == 10 && precipitations == 0){
+        if (density == 10 && precipitations == 0) {
             $('#precipitations').html('none');
-        }else if(density == 10 && precipitations == 1){
+        } else if (density == 10 && precipitations == 1) {
             $('#precipitations').html('Rain/Snow');
-        }else if(density == 10 && precipitations == 2){
+        } else if (density == 10 && precipitations == 2) {
             $('#precipitations').html('Thunderstorm/Snowstorm');
-        }else{
+        } else {
             $('#precipitations').html('none');
         }
 
@@ -138,9 +138,28 @@ function randomWheater() {
 }
 
 
+function setSelected() {
+
+    var url = window.location.href;
+    var filename = url.split('/').pop().split('#')[0].split('?')[0];
+
+    var links = $('.headerBlock .mainMenu ul li  a');
+
+    $.each(links, function (key, val) {
+
+        var fnm = $(val).attr('href');
+
+        if (fnm == filename) {
+            $(val).addClass('selectedItem');
+        }
+    });
+
+}
+
+
 //on load functions
 $(document).ready(function () {
-
+    setSelected();
     if ($("#randoom").length) {
         getJsondata();
         randomWheater();
