@@ -1,0 +1,379 @@
+@font-face {
+    font-family: 'Titillium Web';
+    src: url('../fonts/TitilliumWeb-Bold.eot');
+    src: url('../fonts/TitilliumWeb-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Bold.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    src: url('../fonts/TitilliumWeb-Black.eot');
+    src: url('../fonts/TitilliumWeb-Black.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Black.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    src: url('../fonts/TitilliumWeb-Light.eot');
+    src: url('../fonts/TitilliumWeb-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Light.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Titillium Web';
+    src: url('../fonts/TitilliumWeb-Regular.eot');
+    src: url('../fonts/TitilliumWeb-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Regular.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Titillium Web', Arial, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 16px;
+}
+
+/*reset css*/
+h1, h2, h3, h4, h5, a, p, span, strong {
+    margin: 0;
+    padding: 0;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: #b8c9db;
+}
+
+a:focus {
+    border: none;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.row {
+    margin: 0;
+}
+
+/*reset css*/
+
+/*COLOR SCHEME:   #01172f    #2e3e4f    #586a7c   #b8c9db  #f4f7f9 */
+
+/*general*/
+
+.darkBack {
+    background-color: #01172f;
+}
+
+.textBlueDark {
+    color: #2e3e4f;
+}
+
+.textBlue {
+    color: #586a7c;
+}
+
+.textLightBlue {
+    color: #b8c9db;
+}
+
+.textWhite {
+    color: #f4f7f9;
+}
+
+.fontLight {
+    font-weight: 300;
+}
+
+.fontNormal {
+    font-weight: 400;
+}
+
+.fontBold {
+    font-weight: 700;
+}
+
+.fontExtraBold {
+    font-weight: 900;
+}
+
+.pozRel {
+    position: relative;
+}
+
+.pozAbs {
+    position: absolute;
+}
+
+.lightFont {
+    font-weight: 300;
+}
+
+.boldFont {
+    font-weight: bold;
+}
+
+.extraBoldFont {
+    font-weight: 900;
+}
+
+.verticalAlignTop {
+    vertical-align: top;
+}
+
+.verticalAlignTextTop {
+    vertical-align: text-top;
+}
+
+.verticalAlignMiddle {
+    vertical-align: middle;
+}
+
+.dNone {
+    display: none;
+}
+
+.whiteText {
+    color: #ffffff !important;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.btn-primary {
+    color: #01172f;
+    background-color: #f4f7f9;
+    border-color: #01172f;
+}
+
+.btn-primary:hover{
+    background-color: #586a7c;
+}
+
+.panel-title a.collapsed:after {
+
+    content: "\25bc"; /*down*/
+     font-size: 12px;
+     color: white;
+     float: right;
+ }
+
+.panel-title a:after {
+
+    content: "\25b2"; /*up*/
+    font-size: 12px;
+    color: white;
+    float: right;
+}
+
+
+/*COLOR SCHEME:   #01172f    #2e3e4f    #586a7c   #b8c9db  #f4f7f9 */
+/*meniu*/
+.mainMenu {
+    top: 0;
+    right: 0;
+    /*top: 10px;*/
+    /*right: 10px;*/
+    z-index: 100;
+    text-align: right;
+    width: 100%;
+    padding: 10px 10px 0;
+}
+
+.mainMenu .dropdown-toggle {
+    padding: 0;
+}
+
+.mainMenu .dropdown-toggle:hover {
+    color: #2e3e4f;
+}
+
+.mainMenu .dropdown-backdrop {
+    background-color: #000000;
+    opacity: 0.5;
+}
+
+.mainMenu ul {
+    position: fixed;
+    width: 100%;
+    border-radius: 0;
+    top: 0px;
+    left: 0px;
+}
+
+.mainMenu ul li {
+    width: 100%;
+    font-size: 18px;
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+}
+
+.mainMenu ul li:first-child {
+    border-top: 1px solid #cccccc;
+}
+
+.mainMenu ul li a {
+    color: #01172f;
+    line-height: 42px;
+}
+
+.mainContent {
+    padding: 10px;
+}
+
+
+/*home*/
+.homeBlock {
+    width: 160px;
+    border: 1px solid #b8c9db;
+    border-radius: 10px;
+    height: 160px;
+    margin-bottom: 20px;
+    padding: 0;
+    margin-right: 20px;
+}
+
+.homeBlock a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.homeBlock img {
+    height: 70%
+    /*width: 80%;*/
+}
+
+/*tools*/
+.infoBlock h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.dropRow {
+    padding-bottom: 15px;
+}
+
+.dropRow label {
+    margin-right: 20px;
+}
+
+.dropRow select {
+    width: 160px;
+}
+
+#formYear option {
+    padding: 5px 10px 5px 10px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.randomBlock div.clearfix {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #cccccc;
+}
+
+
+/*map*/
+.mapMask {
+    width: 1280px;
+    height: 1280px;
+    overflow: scroll;
+    border: 1px solid #01172f;
+}
+
+.mapHolder {
+    background: url("../images/map.jpg") no-repeat left top;
+    width: 5742px;
+    height: 3896px;
+    background-size: 5742px 3896px;
+}
+
+.panel-title > a, .panel-title > small, .panel-title > .small, .panel-title > small > a, .panel-title > .small > a {
+    color: #f4f7f9;
+    width: 100%;
+    display: inline-block;
+}
+
+.panel-default > .panel-heading {
+    color: #f4f7f9;
+    background-color: #01172f;
+    border-color: #2e3e4f;
+}
+
+/*1280, 1024, 980, 800, 768, 736, 667, 640, 600, 568, 540, 480, 414, 375, 360, 320*/
+/*COLOR SCHEME:   #01172f    #2e3e4f    #586a7c   #b8c9db  #f4f7f9 */
+/*--------------------------------RESPONSIVE------------------------------------------------------------------------------------------------------*/
+
+
+@media screen and (max-width: 640px) {
+
+    .homeBlock {
+        width: 140px;
+        height: 160px;
+        margin-bottom: 15px;
+        margin-right: 15px;
+    }
+
+    .mapMask {
+        width: 620px;
+        height: 620px;
+        overflow: scroll;
+    }
+
+    .mainMenu ul {
+        min-width: 640px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+
+
+    .homeBlock {
+        width: 160px;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+
+
+    .mapMask {
+        width: 340px;
+        height: 340px;
+        overflow: scroll;
+    }
+
+    .mapHolder {
+        width: 1200px;
+        height: 1200px;
+        background-size: 1200px auto;
+    }
+
+    .mainMenu ul {
+        min-width: 360px;
+    }
+
+    .homeBlock:nth-child(even) {
+        margin-right: 0;
+    }
+}
