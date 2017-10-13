@@ -156,7 +156,56 @@ function setSelected() {
 
 }
 
+// google map api key AIzaSyBSLqEqieVlbqi5zhsJkJbLn_U7ekSC7r8
 
+
+function fromMap() {
+    url = window.location.href;
+    newurl = url.split("?")[1];
+
+    if (newurl != "undefined" && newurl != null) {
+        paramvalue = newurl.split("=")[1];
+
+
+
+        getdata = $('.charts .collapsed');
+
+        $.each(getdata, function (ix, el) {
+            aa = $(el).attr('href');
+
+
+
+            xx = aa.slice(-2);
+
+            console.log(xx);
+
+            if (xx == paramvalue) {
+                $(el).click();
+            }
+
+
+        });
+
+    }
+
+
+
+}
+
+
+function showAreaText(){
+    $('area').each(function(){
+        var txt=$(this).attr('title');
+        var coor=$(this).attr('coords');
+        var coorA=coor.split(',');
+        var left=coorA[0];
+        var top=coorA[1];
+
+        var $span=$('<span class="map_title">'+txt+'</span>');
+        $span.css({top: top+'px', left: left+'px', position:'absolute'});
+        $span.appendTo('#mapp');
+    });
+}
 
 //on load functions
 $(document).ready(function () {
@@ -166,6 +215,12 @@ $(document).ready(function () {
         randomWheater();
     }
 
+    if ($("#charts").length) {
+        fromMap();
+    }
 
+    // if ($("#mapp").length) {
+    //     showAreaText();
+    // }
 
 });

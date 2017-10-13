@@ -12,8 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,700,900" rel="stylesheet">
 
 
-
-
     <link type="text/css" rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
     <link type="text/css" rel="stylesheet" href="css/margins.css"/>
@@ -68,11 +66,45 @@
     <!--CONTENT-->
     <div class="row mainContent">
         <div class="clearfix mb-4">
-            <h2 class="f24 boldFont"><i class="fa fa-map textLightBlue f22 pr-2" aria-hidden="true"></i> Map</h2>
+            <h2 class="f24 boldFont pb-3"><i class="fa fa-map textLightBlue f22 pr-2" aria-hidden="true"></i> Map</h2>
+            <p>Click on the airports to see charts</p>
         </div>
-        <div class="mapMask dragscroll">
-            <div class="mapHolder">&nbsp;</div>
+        <div class="maskMe">
+            <div class="clickmap" id="mapp">
+                <img src="images/hover_clickmap.jpg" width="1100" height="640" alt="Map" usemap="#map">
+                <map name="map">
+                    <area shape="circle" coords="252, 103, 14" title="Anapa" alt="Anapa" href="charts.html?param=01" />
+                    <area shape="circle" coords="641, 529, 13" title="Batumi" alt="Batumi" href="charts.html?param=02" />
+                    <area shape="circle" coords="914, 331, 13" title="Beslan" alt="Beslan" href="charts.html?param=03" />
+                    <area shape="circle" coords="316, 161, 13" title="Ghelendzhik" alt="Ghelendzhik" href="charts.html?param=04" />
+                    <area shape="circle" coords="546, 344, 15" title="Gudauta" alt="Gudauta" href="charts.html?param=05" />
+                    <area shape="circle" coords="656, 500, 12" title="Kobuleti" alt="Kobuleti" href="charts.html?param=06" />
+                    <area shape="circle" coords="392, 93, 13" title="Krasnodar" alt="Krasnodar" href="charts.html?param=07" />
+                    <area shape="circle" coords="420, 100, 12" title="Krasnodar Center" alt="Krasnodar Center" href="charts.html?param=08" />
+                    <area shape="circle" coords="312, 110, 13" title="Krymsk" alt="Krymsk" href="charts.html?param=09" />
+                    <area shape="circle" coords="720, 460, 13" title="Kutaisi" alt="Kutaisi" href="charts.html?param=10" />
+                    <area shape="circle" coords="497, 145, 11" title="Maykop" alt="Maykop" href="charts.html?param=11" />
+                    <area shape="circle" coords="774, 204, 14" title="Mineralnye Vody" alt="Mineralnye Vody" href="charts.html?param=12" />
+                    <area shape="circle" coords="914, 259, 14" title="Mozdok" alt="Mozdok" href="charts.html?param=13" />
+                    <area shape="circle" coords="825, 293, 13" title="Nalchick" alt="Nalchick" href="charts.html?param=14" />
+                    <area shape="circle" coords="291, 144, 13" title="Novorossiysk" alt="Novorossiysk" href="charts.html?param=15" />
+                    <area shape="circle" coords="680, 451, 14" title="Senaki" alt="Senaki" href="charts.html?param=16" />
+                    <area shape="circle" coords="489, 301, 13" title="Sochi" alt="Sochi" href="charts.html?param=17" />
+                    <area shape="circle" coords="596, 375, 13" title="Sukhumi" alt="Sukhumi" href="charts.html?param=18" />
+                    <area shape="circle" coords="943, 512, 12" title="Tbilisi Lochini" alt="Tbilisi Lochini" href="charts.html?param=19" />
+                    <area shape="circle" coords="942, 543, 13" title="Tbilisi Soganlug" alt="Tbilisi Soganlug" href="charts.html?param=20" />
+                    <area shape="circle" coords="966, 533, 14" title="Vaziani" alt="Vaziani" href="charts.html?param=21">
+                </map>
+            </div>
+
+
+
         </div>
+        <!--<div class="mapMask dragscroll">-->
+        <!--<div class="mapHolder">-->
+        <!--&nbsp;-->
+        <!--</div>-->
+        <!--</div>-->
 
     </div>
     <!--FOOTER-->
@@ -84,13 +116,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
 
 
 </body>
