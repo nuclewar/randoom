@@ -2,7 +2,7 @@
 function getJsondata() {
 
 
-    $.getJSON("js/test.js", function (data) {
+    $.getJSON("../js/test.js", function (data) {
 
         setSelect(data);
         selectChanged(data);
