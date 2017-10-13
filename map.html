@@ -11,6 +11,9 @@
 
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,700,900" rel="stylesheet">
 
+
+
+
     <link type="text/css" rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
     <link type="text/css" rel="stylesheet" href="css/margins.css"/>
@@ -18,6 +21,9 @@
 
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/dragscroll.js"></script>
+
     <script type="text/javascript" src="js/main.js"></script>
 
 </head>
@@ -64,9 +70,10 @@
         <div class="clearfix mb-4">
             <h2 class="f24 boldFont"><i class="fa fa-map textLightBlue f22 pr-2" aria-hidden="true"></i> Map</h2>
         </div>
-        <div class="mapMask">
-            <div class="mapHolder" draggable="true">&nbsp;</div>
+        <div class="mapMask dragscroll">
+            <div class="mapHolder">&nbsp;</div>
         </div>
+
     </div>
     <!--FOOTER-->
     <div class="row footerBlock darkBack">

@@ -157,6 +157,7 @@ function setSelected() {
 }
 
 
+
 //on load functions
 $(document).ready(function () {
     setSelected();
@@ -164,6 +165,7 @@ $(document).ready(function () {
         getJsondata();
         randomWheater();
     }
+
 
 
 });
