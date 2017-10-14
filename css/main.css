@@ -234,6 +234,13 @@ a:focus {
 }
 
 /*home*/
+
+.homeBanner {
+    background: url("../images/clickmap.jpg") no-repeat center;
+    width: 100%;
+    height: 450px;
+}
+
 .homeBlock {
     width: 160px;
     border: 1px solid #b8c9db;
@@ -330,16 +337,16 @@ a:focus {
     position: relative;
 }
 
-.clickmap span{
+.clickmap span {
     color: #ffffff;
     text-shadow: 2px 2px #000000;
 }
 
 /*.clickmap:hover{*/
-    /*background: url("../images/clickmap.jpg") no-repeat left top;*/
+/*background: url("../images/clickmap.jpg") no-repeat left top;*/
 /*}*/
 
-.clickme{
+.clickme {
     display: block;
     position: absolute;
     width: 27px;
@@ -351,57 +358,11 @@ a:focus {
     text-shadow: 1px 1px blue;
     font-size: 14px;
     border: 1px solid transparent;
-    background-color: rgba(0,0,0, 1);
+    background-color: rgba(0, 0, 0, 1);
     border-radius: 50%;
 }
 
-/*.clickme:hover{*/
-    /*color: #ffffff;*/
-    /*text-shadow: 2px 2px #000000;*/
-    /*border-color: #000000;*/
-    /*background-color: rgba(255,255,255, 0.6);*/
-/*}*/
 
-/*.anapa{*/
-    /*left: 238px;*/
-    /*top: 90px;*/
-    /*text-indent: -40px;*/
-/*}*/
-
-/*.novorossiysk{*/
-    /*left: 277px;*/
-    /*top: 131px;*/
-    /*line-height: 16px;*/
-/*}*/
-
-/*.gelendzhik {*/
-    /*left: 301px;*/
-    /*top: 147px;*/
-    /*text-indent: -65px;*/
-    /*padding-top: 5px;*/
-/*}*/
-
-/*.krymsk {*/
-    /*left: 298px;*/
-    /*top: 96px;*/
-/*}*/
-
-/*.krasnodar {*/
-    /*left: 378px;*/
-    /*top: 80px;*/
-    /*text-indent: -64px;*/
-    /*line-height: 14px;*/
-/*}*/
-
-/*.krasnodar_center{*/
-    /*left: 406px;*/
-    /*top: 87px;*/
-/*}*/
-
-/*.maykop {*/
-    /*left: 483px;*/
-    /*top: 132px;*/
-/*}*/
 
 /*Charts*/
 
@@ -412,7 +373,6 @@ a:focus {
 .charts .panel-body {
     text-align: center;
 }
-
 
 /*Links*/
 .linksContainer ul li {
@@ -451,6 +411,8 @@ a:focus {
 /*--------------------------------RESPONSIVE------------------------------------------------------------------------------------------------------*/
 
 @media screen and (max-width: 1280px) {
+
+    .homeBanner{display: none;}
 
     .headerBlock .col-xs-2 {
         width: 100%;
@@ -527,7 +489,6 @@ a:focus {
         color: inherit;
     }
 
-
     .maskMe {
         border: 1px solid #01172f;
         width: 100%;
@@ -593,8 +554,6 @@ a:focus {
     }
 }
 
-
-
 /*.iframeHolder {*/
 /*padding: 20px 0;*/
 /*}*/
@@ -611,7 +570,6 @@ a:focus {
 /*margin-top: -60px;*/
 /*border: 0;*/
 /*}*/
-
 
 /*.iframeHolder {*/
 /*padding: 10px 0;*/
