@@ -322,12 +322,21 @@ a:focus {
 }
 
 /*COLOR SCHEME:   #01172f    #2e3e4f    #586a7c   #b8c9db  #f4f7f9 */
+
+.charts .maskMe {
+    border: 1px solid #01172f;
+    width: 100%;
+    height: 640px;
+}
+
+
 /*map*/
 .maskMe {
     border: 1px solid #01172f;
     width: 1100px;
     height: 640px;
     margin: 30px 0;
+    overflow: scroll;
 }
 
 .clickmap {
@@ -489,7 +498,7 @@ a:focus {
         color: inherit;
     }
 
-    .maskMe {
+    .maskMe, .charts .maskMe {
         border: 1px solid #01172f;
         width: 100%;
         height: 300px;
@@ -513,7 +522,7 @@ a:focus {
         margin-right: 15px;
     }
 
-    .mapMask {
+    .mapMask, .charts .mapMask {
         width: 620px;
         height: 620px;
         overflow: scroll;
@@ -533,11 +542,11 @@ a:focus {
         margin-right: 20px;
     }
 
-    .mapMask {
-        width: 340px;
-        height: 340px;
-        overflow: scroll;
-    }
+    /*.mapMask, .charts .mapMask {*/
+        /*width: 340px;*/
+        /*height: 340px;*/
+        /*overflow: scroll;*/
+    /*}*/
 
     .mapHolder {
         width: 1200px;
