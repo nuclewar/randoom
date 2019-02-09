@@ -6,7 +6,7 @@ git commit -am "message" // To commit changes
 git push origin master // Push your local changes to github
 */
 
-var randomMission = ["Intercept", "Escort", "Fighter Sweep", "Recon", "Ground Attack", "A2_AD", "CAP", "CAS", "Civilian", "CSAR", "SEAD", "ESCAPE"];
+var randomMission = ["Intercept", "Escort", "Fighter Sweep", "Recon", "Ground Attack", "Pinpoint Strike", "CAP", "CAS", "Air Policing", "CSAR", "SEAD", "Transport", "Anti-Ship"];
 var rmLen = randomMission.length;
 rmLen = rmLen - 1;
 
@@ -197,53 +197,11 @@ function setSelected() {
 
 }
 
-// google map api key AIzaSyBSLqEqieVlbqi5zhsJkJbLn_U7ekSC7r8
-
-
-/* function fromMap() {
-  url = window.location.href;
-  newurl = url.split("?")[1];
-
-  if (newurl != "undefined" && newurl != null) {
-    paramvalue = newurl.split("=")[1];
-
-
-
-    getdata = $('.charts .collapsed');
-
-    $.each(getdata, function(ix, el) {
-      aa = $(el).attr('href');
-
-
-
-      xx = aa.slice(-2);
-
-      if (xx == paramvalue) {
-
-        $('html, body').animate({
-          scrollTop: $(el).offset().top
-        }, 1000);
-
-
-        $(el).click();
-      }
-
-
-    });
-
-  }
-
-
-
-} */
 
 
 function zoom() {
   wheelzoom(document.querySelector('img.zoom'));
 }
-
-
-
 
 
 //on load functions
