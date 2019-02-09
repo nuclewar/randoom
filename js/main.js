@@ -200,7 +200,7 @@ function setSelected() {
 // google map api key AIzaSyBSLqEqieVlbqi5zhsJkJbLn_U7ekSC7r8
 
 
-function fromMap() {
+/* function fromMap() {
   url = window.location.href;
   newurl = url.split("?")[1];
 
@@ -235,7 +235,7 @@ function fromMap() {
 
 
 
-}
+} */
 
 
 function zoom() {
@@ -254,9 +254,9 @@ $(document).ready(function() {
     randomWheater();
   }
 
-  if ($("#charts").length) {
+ /*  if ($("#charts").length) {
     fromMap();
-  }
+  } */
 
   if ($("#mapp").length) {
     zoom();
