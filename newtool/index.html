@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="row"><div class="troops" id="zone"></div></div>
+
+    <div class="row">
+      <div class="title">RED forces</div>
+      <div class="troops" id="troops_1"></div>
+      <div class="troops" id="awacs_1">Awacs: <span>no</span></div>
+      <div class="troops" id="ewr_1">EWR: <span>no</span></div>
+      <div class="troops" id="farp_1">FARP: <span>no</span></div>
+      <div class="troops" id="attck_1">STATUS: <span>no</span></div>
+      <div>
+        <button class="generator" id="generate_1">Generate RED troops</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="title">BLUE forces</div>
+      <div class="troops" id="troops_2"></div>
+      <div class="troops" id="awacs_2">Awacs: <span>no</span></div>
+      <div class="troops" id="ewr_3">EWR: <span>no</span></div>
+      <div class="troops" id="farp_2">FARP: <span>no</span></div>
+      <div class="troops" id="attck_2">STATUS: <span>no</span></div>
+      <div>
+        <button class="generator" id="generate_2">Generate BLUE troops</button>
+      </div>
+    </div>
+
+    <script src="src/index.js"></script>
+  </body>
+</html>
