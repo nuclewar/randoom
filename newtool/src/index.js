@@ -1,4 +1,3 @@
-import "./styles.css";
 
 var obj = {
   coallitions: [
