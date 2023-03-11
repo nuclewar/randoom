@@ -42,12 +42,12 @@ body {
   font-family: 'Titillium Web', Arial, Verdana, sans-serif;
   font-size: 16px;
   line-height: 18px;
-  background: url("../images/body-map.png") no-repeat right bottom;
 }
 
 .mainWrapper{
 	width: 800px;
 	margin: 0 auto;
+	background: url("../images/body-map.png") no-repeat right bottom;
 }
 
 /*font sizes START*/
