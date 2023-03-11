@@ -62,7 +62,15 @@ body {
 .fs-16{
   font-size: 1rem;
 }
+
+.fs-18{
+  font-size: 18px;
+}
 /*font sizes END*/
+
+.fontBold{
+  font-weight: bolder;
+}
 
 /*weather widget START*/
 .weatherMainContainer > div{
