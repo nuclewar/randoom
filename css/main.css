@@ -1,0 +1,77 @@
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/TitilliumWeb-Bold.eot');
+  src: url('../fonts/TitilliumWeb-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Bold.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/TitilliumWeb-Black.eot');
+  src: url('../fonts/TitilliumWeb-Black.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Black.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/TitilliumWeb-Light.eot');
+  src: url('../fonts/TitilliumWeb-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Light.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  src: url('../fonts/TitilliumWeb-Regular.eot');
+  src: url('../fonts/TitilliumWeb-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/TitilliumWeb-Regular.woff') format('woff'),
+    url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Titillium Web', Arial, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 18px;
+  background: url("../images/body-map.png") no-repeat right bottom;
+}
+
+/*font sizes START*/
+.fs-12{
+  font-size: 12px;
+}
+
+.fs-14{
+  font-size: 14px;
+}
+
+.fs-16{
+  font-size: 1rem;
+}
+/*font sizes END*/
+
+/*weather widget START*/
+.weatherMainContainer > div{
+ /* margin: 0 5px !important;*/
+  margin: 0 !important;
+  overflow: hidden;
+}
+/*weather widget END*/
+
+/*footer START*/
+.footer{
+  position: fixed; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  width: 100%;
+}
