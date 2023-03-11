@@ -46,7 +46,7 @@ body {
 
 .mainWrapper{
 	width: 800px;
-	margin: 0 auto;
+	margin: 20px auto;
 	background: url("../images/body-map.png") no-repeat right bottom;
 }
 
