@@ -45,6 +45,11 @@ body {
   background: url("../images/body-map.png") no-repeat right bottom;
 }
 
+.mainWrapper{
+	width: 800px;
+	margin: 0 auto;
+}
+
 /*font sizes START*/
 .fs-12{
   font-size: 12px;
