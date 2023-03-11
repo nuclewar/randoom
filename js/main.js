@@ -12,7 +12,7 @@ function getRandomArbitrary(min, max) {
 
 
 function setVersion() {
-  $('#version').html('v0.1.6');
+  $('#version').html('v0.1.7');
 }
 
 function loadCommons() {
