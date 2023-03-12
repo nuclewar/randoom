@@ -112,8 +112,12 @@ body {
 }
 
 .randomData{
-  background: rgba(255, 255, 255, 0.4);
+  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
 }
+
+/*.randomData h5{
+  
+}*/
 
 /*DESKTOP START*/
 @media only screen and (min-width: 1024px) {
