@@ -47,7 +47,14 @@ body {
 .mainWrapper{
 	width: 100%;
 	margin: 0;
-	background: url("../images/body-map.png") no-repeat right bottom;
+}
+
+.random-bg-1{
+  background: url("../images/body-map-1.png") no-repeat right bottom;
+}
+
+.random-bg-2{
+  background: url("../images/body-map-2.png") no-repeat right bottom;
 }
 
 

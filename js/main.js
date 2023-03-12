@@ -96,10 +96,15 @@ function randoomTriggered(){
   }
 
 
+function randomBg(){
+  var randomBg = randomNumberFromRange(1, 2);
+  $(".mainWrapper").addClass("random-bg-" + randomBg + "");
+}
 
 //-------------------------------on load functions---------------------------------------------
 $(document).ready(function() {
   loadCommons();
+  randomBg();
 
   setTimeout(function(){
     setVersion();
