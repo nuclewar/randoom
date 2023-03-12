@@ -27,7 +27,7 @@
 
 <body>
 
- <div class="mainWrapper rounded border shadow">
+ <div class="mainWrapper rounded border-xl shadow">
   <div data-include="header"></div>
 
   <!-- Weather START -->
@@ -35,14 +35,16 @@
     <h2 class="h5">
       <i class="fas fa-temperature-low text-primary"></i> Local weather
     </h2>
-    <div class="weatherMainContainer d-flex justify-content-between">
-     <div id="cont_256aa846e2a05ac12a813d31392c3e8d"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/256aa846e2a05ac12a813d31392c3e8d"></script></div>
-     <div id="cont_8914fe6e0aefd74ae1de87149580ec4c"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/8914fe6e0aefd74ae1de87149580ec4c"></script></div>
-     <div id="cont_3e514771a130252571ef1cf39943b5ad"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/3e514771a130252571ef1cf39943b5ad"></script></div>
-	 <div id="cont_67ff98b61fa41635601efae1f0706b43"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/67ff98b61fa41635601efae1f0706b43"></script></div>
-	 <div id="cont_e6a644957e015682a9a2814ba9fe2350"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/e6a644957e015682a9a2814ba9fe2350"></script></div>
-     <div id="cont_d95e5295233c2685afad481f718f9c34"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/d95e5295233c2685afad481f718f9c34"></script></div>
-    <div id="cont_7231a70ac5069d45d4e1d200a8238011"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/7231a70ac5069d45d4e1d200a8238011"></script></div>
+    <div class="weatherParentContainer">
+      <div class="weatherMainContainer d-flex justify-content-between">
+       <div id="cont_256aa846e2a05ac12a813d31392c3e8d"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/256aa846e2a05ac12a813d31392c3e8d"></script></div>
+       <div id="cont_8914fe6e0aefd74ae1de87149580ec4c"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/8914fe6e0aefd74ae1de87149580ec4c"></script></div>
+       <div id="cont_3e514771a130252571ef1cf39943b5ad"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/3e514771a130252571ef1cf39943b5ad"></script></div>
+       <div id="cont_67ff98b61fa41635601efae1f0706b43"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/67ff98b61fa41635601efae1f0706b43"></script></div>
+       <div id="cont_e6a644957e015682a9a2814ba9fe2350"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/e6a644957e015682a9a2814ba9fe2350"></script></div>
+       <div id="cont_d95e5295233c2685afad481f718f9c34"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/d95e5295233c2685afad481f718f9c34"></script></div>
+       <div id="cont_7231a70ac5069d45d4e1d200a8238011"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/7231a70ac5069d45d4e1d200a8238011"></script></div>
+     </div>
    </div>
  </div>
  <!-- Weather END -->
@@ -53,23 +55,23 @@
     <i class="far fa-sun text-primary"></i> Sunrise/Sunset - Moon Phases
   </h2>
   <div class="row">
-    <div class="col-8">
+    <div class="col-12 col-xl-8 mb-3 mb-xl-0">
       <div class="mb-3">
-          <label class="mb-2">Choose date</label>
-          <select id="formYear" class="form-select w-25" aria-label="Default select example">
-            <option value="--">please select</option>
-          </select>
-        </div>
-        <div class="mb-2">
-          <span class="fontBold textBlue mr-2">Sunrise:</span> 
-          <span id="sunrise"></span>
-        </div>
-        <div class="mb-2">
-          <span class="fontBold textBlue mr-2">Sunset:</span>
-          <span id="sunset"></span>
-        </div>
+        <label class="mb-2">Choose date</label>
+        <select id="formYear" class="form-select w-50" aria-label="Default select example">
+          <option value="--">please select</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <span class="fontBold textBlue mr-2">Sunrise:</span> 
+        <span id="sunrise"></span>
+      </div>
+      <div class="mb-2">
+        <span class="fontBold textBlue mr-2">Sunset:</span>
+        <span id="sunset"></span>
+      </div>
     </div>
-    <div class="col-4">
+    <div class="col-12 col-xl-4">
      <!-- // Begin Current Moon Phase HTML (c) MoonConnection.com // -->
      <table cellpadding="0" cellspacing="0" border="0" width="214">
       <tr>
@@ -88,37 +90,37 @@
 <!-- Sunrise/Sunset|Moon END -->
 
 <!-- Generate Randoms START -->
- <div class="container-fluid p-3 mb-5">
-   <h2 class="h5">
-    <i class="fas fa-random text-primary"></i> Random Stuff
-  </h2>
-   <div class="row mb-3">
-     <div class="col-2">
-        <span class="fontBold">Mission Hour:</span>
-     </div>
-     <div class="col-10">
-       <span id="missionHour">00</span>.00
-     </div>
-   </div>
-   <div class="row mb-3">
-     <div class="col-2">
-        <span class="fontBold">Cloud Preset:</span>
-     </div>
-     <div class="col-10">
-        <span id="cloudType"></span>
-     </div>
-   </div>
-   <div class="row">
-     <div class="col-12">
-        <button id="generate" class="btn btn-primary">Generate</button>
-     </div>
-   </div>
- </div>
- <!-- Generate Randoms END -->
+<div class="container-fluid p-4 p-xl-3 mb-4 mb-xl-5 randomData">
+ <h2 class="h5">
+  <i class="fas fa-random text-primary"></i> Random Stuff
+</h2>
+<div class="row mb-3">
+ <div class="col-2">
+  <span class="fontBold">Mission Hour:</span>
+</div>
+<div class="col-10">
+ <span id="missionHour">00</span>.00
+</div>
+</div>
+<div class="row mb-3">
+ <div class="col-2">
+  <span class="fontBold">Cloud Preset:</span>
+</div>
+<div class="col-10">
+  <span id="cloudType"></span>
+</div>
+</div>
+<div class="row">
+ <div class="col-12">
+  <button id="generate" class="btn btn-primary">Generate</button>
+</div>
+</div>
+</div>
+<!-- Generate Randoms END -->
 
 
 <div data-include="footer"></div>
- </div>
+</div>
 
 </body>
 

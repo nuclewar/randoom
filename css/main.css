@@ -2,8 +2,8 @@
   font-family: 'Titillium Web';
   src: url('../fonts/TitilliumWeb-Bold.eot');
   src: url('../fonts/TitilliumWeb-Bold.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/TitilliumWeb-Bold.woff') format('woff'),
-    url('../fonts/TitilliumWeb-Bold.ttf') format('truetype');
+  url('../fonts/TitilliumWeb-Bold.woff') format('woff'),
+  url('../fonts/TitilliumWeb-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
@@ -12,8 +12,8 @@
   font-family: 'Titillium Web';
   src: url('../fonts/TitilliumWeb-Black.eot');
   src: url('../fonts/TitilliumWeb-Black.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/TitilliumWeb-Black.woff') format('woff'),
-    url('../fonts/TitilliumWeb-Black.ttf') format('truetype');
+  url('../fonts/TitilliumWeb-Black.woff') format('woff'),
+  url('../fonts/TitilliumWeb-Black.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
 }
@@ -22,8 +22,8 @@
   font-family: 'Titillium Web';
   src: url('../fonts/TitilliumWeb-Light.eot');
   src: url('../fonts/TitilliumWeb-Light.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/TitilliumWeb-Light.woff') format('woff'),
-    url('../fonts/TitilliumWeb-Light.ttf') format('truetype');
+  url('../fonts/TitilliumWeb-Light.woff') format('woff'),
+  url('../fonts/TitilliumWeb-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
 }
@@ -32,8 +32,8 @@
   font-family: 'Titillium Web';
   src: url('../fonts/TitilliumWeb-Regular.eot');
   src: url('../fonts/TitilliumWeb-Regular.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/TitilliumWeb-Regular.woff') format('woff'),
-    url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+  url('../fonts/TitilliumWeb-Regular.woff') format('woff'),
+  url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -45,10 +45,11 @@ body {
 }
 
 .mainWrapper{
-	width: 800px;
-	margin: 20px auto;
+	width: 100%;
+	margin: 0;
 	background: url("../images/body-map.png") no-repeat right bottom;
 }
+
 
 /*font sizes START*/
 .fs-12{
@@ -73,11 +74,25 @@ body {
 }
 
 /*weather widget START*/
-.weatherMainContainer > div{
- /* margin: 0 5px !important;*/
-  margin: 0 !important;
+
+.weatherParentContainer{
+  width: 95vw;
   overflow: hidden;
 }
+
+.weatherMainContainer{
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+
+.weatherMainContainer > div{
+ margin: 0 !important;
+ overflow: hidden;
+ flex: 1 0 auto;
+}
+
 /*weather widget END*/
 
 /*footer START*/
@@ -87,4 +102,23 @@ body {
   right: 0; 
   bottom: 0; 
   width: 100%;
+}
+
+.randomData{
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/*DESKTOP START*/
+@media only screen and (min-width: 1024px) {
+
+  .mainWrapper{
+    width: 800px;
+    margin: 20px auto;
+  }
+  .weatherParentContainer{
+    width: 100%;
+  }
+  .randomData{
+    background: transparent;
+  }
 }
