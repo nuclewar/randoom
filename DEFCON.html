@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DEFCON Level Dashboard</title>
+<meta name="description" content="Interactive DEFCON Level app — display, change, and log DEFCON states (client-side).">
+<style>
+  :root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --muted:#9aa4b2;
+    --glass: rgba(255,255,255,0.04);
+    --radius:12px;
+    --accent: #34d399;
+    --mono: "SFMono-Regular",ui-monospace,monospace;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,#041022 0%, #081126 40%, #071022 100%);
+    color:#e6eef6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .app {
+    width:100%;
+    max-width:980px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:var(--radius);
+    padding:22px;
+    box-shadow: 0 6px 30px rgba(2,6,23,0.7);
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:20px;
+  }
+
+  header{
+    grid-column: 1 / -1;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  header h1{
+    margin:0;
+    font-size:20px;
+    letter-spacing:0.6px;
+  }
+  header p{ margin:0; color:var(--muted); font-size:13px }
+
+  .panel{
+    background:var(--card);
+    border-radius:12px;
+    padding:18px;
+    min-height:140px;
+  }
+
+  /* Main visual */
+  .status {
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    align-items:flex-start;
+  }
+
+  .defcon-badge{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:100%;
+  }
+
+  .level-circle{
+    width:110px;
+    height:110px;
+    border-radius:999px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-size:36px;
+    color:#081019;
+    box-shadow: inset 0 -6px 18px rgba(0,0,0,0.25);
+    transition: all 300ms ease;
+    flex:0 0 110px;
+    position:relative;
+  }
+
+  .level-info{
+    flex:1;
+  }
+  .level-title{
+    font-size:18px;
+    margin:0 0 6px 0;
+    letter-spacing:0.6px;
+  }
+  .level-desc{ margin:0; color:var(--muted); font-size:14px }
+
+  /* controls */
+  .controls{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+  .btn{
+    background:var(--glass);
+    border:1px solid rgba(255,255,255,0.04);
+    color:inherit;
+    padding:8px 12px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:13px;
+  }
+  .btn.strong{ background:linear-gradient(90deg,#0ea5a0,#3b82f6); color:white }
+  .btn.warn{ background:linear-gradient(90deg,#ef4444,#f97316); color:white }
+  .btn:disabled{ opacity:0.45; cursor:not-allowed }
+
+  .level5{
+    background-color: green;
+  }
+   .level4{
+    background-color: yellow;
+    color: black;
+  }
+
+   .level3{
+    background-color: orange;
+    color: black;
+  }
+
+   .level2{
+    background-color: red;
+  }
+
+   .level1{
+    background-color: brown;
+  }
+
+  .select{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  select{
+    background:black;
+    border:1px solid rgba(255,255,255,0.06);
+    color:inherit;
+    padding:8px 10px;
+    border-radius:9px;
+    font-weight:600;
+    outline:none;
+  }
+
+  /* Right column */
+  .right {
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .history-list{
+    max-height:360px;
+    overflow:auto;
+    padding:8px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .hist-item{
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+    padding:10px;
+    border-radius:10px;
+    font-size:13px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .hist-left{ display:flex; gap:10px; align-items:center }
+  .hist-dot{ width:14px; height:14px; border-radius:999px; flex-shrink:0 }
+  .hist-meta{ color:var(--muted); font-size:12px }
+
+  footer.note{ grid-column:1/-1; color:var(--muted); font-size:12px; margin-top:6px }
+
+  /* Level styles: colors for DEFCON 5->1 */
+  .defcon-5{ background: linear-gradient(180deg,#d1fae5,green); color:#05261a; }
+  .defcon-4{ background: linear-gradient(180deg,#f0f9ff, yellow); color:#08203a; }
+  .defcon-3{ background: linear-gradient(180deg,#fff7ed,orange); color:#42210b; }
+  .defcon-2{ background: linear-gradient(180deg,#fff1f2,red); color:#4a0b0f; }
+  .defcon-1{ background: linear-gradient(180deg,#fee2e2,brown); color:#2b0507; }
+
+  /* Siren visualization */
+  .siren {
+    height:8px;
+    width:100%;
+    background:linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .siren-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#ff3b30,#ff9500);
+    transition:width 260ms linear;
+  }
+
+  /* smaller screens */
+  @media (max-width:880px){
+    .app{ grid-template-columns: 1fr; padding:16px }
+    .level-circle{ width:90px; height:90px; font-size:30px; }
+  }
+
+  /* small utilities */
+  .row{ display:flex; gap:8px; align-items:center }
+  .muted{ color:var(--muted) }
+  .kbd{ background:rgba(255,255,255,0.03); padding:4px 6px; border-radius:6px; font-family:var(--mono); font-size:12px }
+</style>
+</head>
+<body>
+  <main class="app" id="app" aria-live="polite">
+    <header>
+      <div style="display:flex;flex-direction:column;">
+        <h1>DEFCON Dashboard</h1>
+        <p class="muted">Interactive local simulator • saved to browser only</p>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:10px; align-items:center;">
+        <div class="muted" id="lastUpdated">—</div>
+        <button class="btn" id="exportBtn" title="Export history as JSON">Export</button>
+        <button class="btn" id="importBtn" title="Import history JSON">Import</button>
+      </div>
+    </header>
+
+    <section class="panel status" aria-labelledby="currentStatusLabel">
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <div class="defcon-badge" role="region" aria-label="Current DEFCON status">
+          <div id="levelCircle" class="level-circle defcon-5" aria-hidden="true">5</div>
+          <div class="level-info">
+            <p id="currentLabel" class="level-title">DEFCON 5 — Peacetime</p>
+            <p id="currentDesc" class="level-desc">All systems normal — lowest alert level.</p>
+
+            <div class="controls" style="margin-top:10px;">
+              <div class="select" aria-hidden="false">
+                <label for="levelSelect" class="muted" style="font-size:13px">Set:</label>
+                <select id="levelSelect" aria-label="Set DEFCON level" title="Pick a DEFCON level">
+                  <option value="5">DEFCON 5 — Peacetime</option>
+                  <option value="4">DEFCON 4 — Increased Intelligence</option>
+                  <option value="3">DEFCON 3 — Round-the-clock readiness</option>
+                  <option value="2">DEFCON 2 — Next step to war</option>
+                  <option value="1">DEFCON 1 — Maximum readiness</option>
+                </select>
+              </div>
+
+              <button class="btn strong" id="applyBtn">Apply</button>
+              <button class="btn warn" id="alertBtn" title="Sound siren for 3s">Siren</button>
+
+              <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
+                <label class="muted kbd" title="Lock level changes"><input id="lockToggle" type="checkbox" style="margin-right:8px">Lock</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="siren" role="presentation" aria-hidden="true">
+          <div id="sirenBar" class="siren-bar"></div>
+        </div>
+
+        <div style="display:flex;gap:12px; align-items:center;">
+          <div class="muted">Quick set:</div>
+          <div class="controls" id="quickButtons" role="toolbar" aria-label="Quick DEFCON buttons">
+            <button class="btn level5" data-level="5">5</button>
+            <button class="btn level4" data-level="4">4</button>
+            <button class="btn level3" data-level="3">3</button>
+            <button class="btn level2" data-level="2">2</button>
+            <button class="btn level1" data-level="1">1</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <div class="panel" aria-labelledby="historyLabel" style="display:flex;flex-direction:column;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h3 id="historyLabel" style="margin:0;font-size:15px">Change history</h3>
+          <div class="muted" style="font-size:12px">Saved locally</div>
+        </div>
+
+        <div class="history-list" id="historyList" aria-live="polite"></div>
+
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn" id="clearHistoryBtn">Clear history</button>
+          <button class="btn" id="revertBtn">Revert to previous</button>
+          <div style="margin-left:auto" class="muted">Tip: Use <span class="kbd">←</span> <span class="kbd">→</span> to change</div>
+        </div>
+      </div>
+
+      <div class="panel" style="display:flex;flex-direction:column;gap:8px">
+        <h3 style="margin:0;font-size:15px">Info & Controls</h3>
+        <div class="muted" style="font-size:13px">
+          This simulated DEFCON app is a local client-side tool for visualizing and logging levels.
+          It does not connect to any government system. Use responsibly.
+        </div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <button class="btn" id="resetBtn">Reset to DEFCON 5</button>
+          <button class="btn" id="randomBtn">Random Level</button>
+        </div>
+      </div>
+    </aside>
+
+    <footer class="note">Keyboard: Up/Down arrows change level; Space triggers siren. All data stored in your browser.</footer>
+  </main>
+
+<script>
+(() => {
+  // Data model: definitions for each level
+  const LEVELS = {
+    5: { title: "Peacetime", desc: "All systems normal — lowest alert level.", css: "defcon-5" },
+    4: { title: "Increased Intelligence", desc: "Heightened intelligence watch and readiness.", css: "defcon-4" },
+    3: { title: "Round-the-clock readiness", desc: "Forces prepared to deploy within hours.", css: "defcon-3" },
+    2: { title: "Next step to war", desc: "Armed forces ready to deploy; high alert.", css: "defcon-2" },
+    1: { title: "Maximum readiness", desc: "Nuclear war is imminent or underway — maximum alert.", css: "defcon-1" }
+  };
+
+  // DOM
+  const levelCircle = document.getElementById('levelCircle');
+  const currentLabel = document.getElementById('currentLabel');
+  const currentDesc = document.getElementById('currentDesc');
+  const levelSelect = document.getElementById('levelSelect');
+  const applyBtn = document.getElementById('applyBtn');
+  const alertBtn = document.getElementById('alertBtn');
+  const historyList = document.getElementById('historyList');
+  const sirenBar = document.getElementById('sirenBar');
+  const lockToggle = document.getElementById('lockToggle');
+  const lastUpdated = document.getElementById('lastUpdated');
+  const exportBtn = document.getElementById('exportBtn');
+  const importBtn = document.getElementById('importBtn');
+  const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+  const revertBtn = document.getElementById('revertBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const randomBtn = document.getElementById('randomBtn');
+  const quickButtons = document.getElementById('quickButtons');
+  const appRoot = document.getElementById('app');
+
+  // Storage keys
+  const KEY_CUR = 'defcon_current_v1';
+  const KEY_HIST = 'defcon_history_v1';
+
+  // Initialize audio context for siren
+  let audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+
+  function toneSiren(duration = 3000) {
+    try {
+      const ac = ensureAudio();
+      const now = ac.currentTime;
+
+      // two oscillators for a richer sound
+      const o1 = ac.createOscillator();
+      const o2 = ac.createOscillator();
+      const gain = ac.createGain();
+
+      // siren FM sweep
+      o1.type = 'sawtooth';
+      o2.type = 'sine';
+      o1.frequency.setValueAtTime(600, now);
+      o2.frequency.setValueAtTime(400, now);
+
+      // vibrato/sweep
+      o1.frequency.exponentialRampToValueAtTime(1200, now + duration/1000);
+      o2.frequency.exponentialRampToValueAtTime(800, now + duration/1000);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.3, now + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration/1000);
+
+      o1.connect(gain);
+      o2.connect(gain);
+      gain.connect(ac.destination);
+
+      o1.start(now);
+      o2.start(now);
+      o1.stop(now + duration/1000);
+      o2.stop(now + duration/1000);
+    } catch (err) {
+      console.warn('Audio not available:', err);
+    }
+  }
+
+  // Simple siren animation for the bar
+  function animateSiren(seconds = 3) {
+    sirenBar.style.width = '100%';
+    setTimeout(()=> sirenBar.style.width = '0%', seconds*1000);
+  }
+
+  // Utilities
+  function isoNow(){ return (new Date()).toISOString(); }
+  function formatLocal(iso){ return new Date(iso).toLocaleString(); }
+
+  // Read/write storage
+  function loadState() {
+    const cur = localStorage.getItem(KEY_CUR);
+    const hist = localStorage.getItem(KEY_HIST);
+    return {
+      current: cur ? JSON.parse(cur) : { level: 5, ts: isoNow() },
+      history: hist ? JSON.parse(hist) : []
+    };
+  }
+
+  function saveState(state) {
+    localStorage.setItem(KEY_CUR, JSON.stringify(state.current));
+    localStorage.setItem(KEY_HIST, JSON.stringify(state.history));
+  }
+
+  // Render
+  function render(state) {
+    const level = state.current.level;
+    const meta = LEVELS[level];
+
+    // update circle style classes
+    levelCircle.className = 'level-circle ' + meta.css;
+    levelCircle.textContent = level;
+    currentLabel.textContent = `DEFCON ${level} — ${meta.title}`;
+    currentDesc.textContent = meta.desc;
+    levelSelect.value = level.toString();
+
+    lastUpdated.textContent = `Last change: ${formatLocal(state.current.ts)}`;
+
+    // render history
+    historyList.innerHTML = '';
+    if (state.history.length === 0) {
+      const e = document.createElement('div');
+      e.className = 'muted';
+      e.textContent = 'No history yet — when you change a level it will be recorded here.';
+      historyList.appendChild(e);
+    } else {
+      // show most recent first
+      state.history.slice().reverse().forEach((item) => {
+        const el = document.createElement('div');
+        el.className = 'hist-item';
+        const left = document.createElement('div');
+        left.className = 'hist-left';
+        const dot = document.createElement('div');
+        dot.className = 'hist-dot ' + (LEVELS[item.level].css);
+        dot.style.border = '2px solid rgba(0,0,0,0.06)';
+        const meta = document.createElement('div');
+        meta.innerHTML = `<div style="font-weight:700">DEFCON ${item.level} — ${LEVELS[item.level].title}</div>
+                          <div class="hist-meta">${formatLocal(item.ts)}${item.note ? ' • '+escapeHtml(item.note) : ''}</div>`;
+        left.appendChild(dot);
+        left.appendChild(meta);
+        el.appendChild(left);
+
+        const right = document.createElement('div');
+        right.style.display = 'flex';
+        right.style.gap = '8px';
+        const revertBtn = document.createElement('button');
+        revertBtn.className = 'btn';
+        revertBtn.textContent = 'Revert';
+        revertBtn.title = 'Revert to this level';
+        revertBtn.onclick = ()=> { applyLevel(item.level, `Reverted to historical entry from ${formatLocal(item.ts)}`); };
+        right.appendChild(revertBtn);
+        el.appendChild(right);
+
+        historyList.appendChild(el);
+      });
+    }
+  }
+
+  function escapeHtml(s = '') {
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  // Core: apply a new level
+  function applyLevel(newLevel, note = '') {
+    if (lockToggle.checked) {
+      alert('Level changes are locked. Uncheck "Lock" to make changes.');
+      return;
+    }
+    const state = loadState();
+    const prev = state.current;
+    if (prev.level === newLevel) {
+      // still log repeated application (optional)
+      const stamp = isoNow();
+      state.current = { level:newLevel, ts:stamp };
+      state.history.push({ level:newLevel, ts:stamp, note: note || 'Reapplied current level' });
+      saveState(state);
+      render(state);
+      return;
+    }
+
+    const stamp = isoNow();
+    state.current = { level:newLevel, ts:stamp };
+    state.history.push({ level:newLevel, ts:stamp, note: note || `Changed from DEFCON ${prev.level} to ${newLevel}` });
+
+    // keep history reasonable length (optional)
+    if (state.history.length > 200) state.history.shift();
+
+    saveState(state);
+    render(state);
+
+    // audible/visual alert for high severity
+    if (newLevel <= 2) {
+      toneSiren(3000);
+      animateSiren(3);
+      flashTitle(`DEFCON ${newLevel}!`);
+    } else {
+      // soft beep for routine changes
+      pulseTiny();
+    }
+  }
+
+  // tiny pulse sound
+  function pulseTiny() {
+    try {
+      const ac = ensureAudio();
+      const o = ac.createOscillator();
+      const g = ac.createGain();
+      o.frequency.value = 660;
+      g.gain.value = 0.0001;
+      g.gain.exponentialRampToValueAtTime(0.06, ac.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.18);
+      o.connect(g); g.connect(ac.destination);
+      o.start();
+      o.stop(ac.currentTime + 0.2);
+    } catch(e){}
+  }
+
+  // flash page title to attract attention briefly
+  let titleTimer = null, originalTitle = document.title;
+  function flashTitle(text, times = 6) {
+    let count = 0;
+    if (titleTimer) clearInterval(titleTimer);
+    titleTimer = setInterval(()=> {
+      document.title = (count % 2 === 0) ? text : originalTitle;
+      count++;
+      if (count >= times) {
+        clearInterval(titleTimer);
+        document.title = originalTitle;
+        titleTimer = null;
+      }
+    }, 500);
+  }
+
+  // keyboard navigation
+  window.addEventListener('keydown', (ev) => {
+    if (ev.key === 'ArrowLeft' || ev.key === 'ArrowDown') {
+      adjustLevel(1); // up to less severe (higher number)
+      ev.preventDefault();
+    } else if (ev.key === 'ArrowRight' || ev.key === 'ArrowUp') {
+      adjustLevel(-1); // down to more severe (lower number)
+      ev.preventDefault();
+    } else if (ev.code === 'Space') {
+      // space triggers siren
+      toneSiren(1500);
+      animateSiren(1.5);
+      ev.preventDefault();
+    }
+  });
+
+  function adjustLevel(delta) {
+    const state = loadState();
+    let next = state.current.level + delta;
+    next = Math.max(1, Math.min(5, next));
+    applyLevel(next, `Changed via keyboard (delta ${delta})`);
+  }
+
+  // wire up UI
+  applyBtn.addEventListener('click', ()=> {
+    const lvl = parseInt(levelSelect.value, 10);
+    applyLevel(lvl);
+  });
+
+  alertBtn.addEventListener('click', ()=> {
+    toneSiren(3000);
+    animateSiren(3);
+  });
+
+  quickButtons.addEventListener('click', (ev)=> {
+    const t = ev.target;
+    if (t && t.dataset && t.dataset.level) {
+      const lvl = parseInt(t.dataset.level, 10);
+      applyLevel(lvl, 'Quick button');
+    }
+  });
+
+  // export/import
+  exportBtn.addEventListener('click', ()=> {
+    const state = loadState();
+    const data = JSON.stringify(state, null, 2);
+    const blob = new Blob([data], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `defcon-history-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  importBtn.addEventListener('click', ()=> {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const obj = JSON.parse(ev.target.result);
+          if (!obj.current || !Array.isArray(obj.history)) throw new Error('Invalid file format');
+          // basic validation: ensure levels are in 1..5
+          obj.history = obj.history.filter(h => h && h.level >=1 && h.level <=5 && h.ts);
+          obj.current.level = Math.max(1, Math.min(5, obj.current.level || 5));
+          obj.current.ts = obj.current.ts || isoNow();
+          localStorage.setItem(KEY_CUR, JSON.stringify(obj.current));
+          localStorage.setItem(KEY_HIST, JSON.stringify(obj.history));
+          render({ current:obj.current, history:obj.history });
+          alert('Import successful.');
+        } catch (err) {
+          alert('Failed to import: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  });
+
+  clearHistoryBtn.addEventListener('click', ()=> {
+    if (!confirm('Clear entire history? This cannot be undone.')) return;
+    const state = loadState();
+    state.history = [];
+    saveState(state);
+    render(state);
+  });
+
+  revertBtn.addEventListener('click', ()=> {
+    const state = loadState();
+    if (state.history.length < 2) {
+      alert('No previous state to revert to.');
+      return;
+    }
+    // revert to second-last (previous)
+    const last = state.history.pop();
+    const prev = state.history[state.history.length - 1] || { level:5, ts:isoNow() };
+    state.current = { level: prev.level, ts: isoNow() };
+    state.history.push({ level: prev.level, ts: state.current.ts, note: `Reverted from history (previous was ${last.level})`});
+    saveState(state);
+    render(state);
+  });
+
+  resetBtn.addEventListener('click', ()=> {
+    if (!confirm('Reset to DEFCON 5 (Peacetime)?')) return;
+    applyLevel(5, 'Reset to DEFCON 5');
+  });
+
+  randomBtn.addEventListener('click', ()=> {
+    const rand = Math.floor(Math.random()*5)+1;
+    applyLevel(rand, 'Random level');
+  });
+
+  // helper: load and render initial
+  function init() {
+    // initialize default if empty
+    let state = loadState();
+    if (!state.current) {
+      state = { current: { level:5, ts: isoNow() }, history: [] };
+      saveState(state);
+    }
+    render(state);
+  }
+
+  init();
+
+  // small accessibility: focus outline when tabbing
+  document.addEventListener('keydown', (e)=> {
+    if (e.key === 'Tab') document.body.classList.add('show-focus');
+  });
+
+  // expose some debug methods (console)
+  window.__DEFCON = {
+    getState: () => loadState(),
+    applyLevel: (lvl, note) => applyLevel(lvl, note),
+    clear: ()=> { localStorage.removeItem(KEY_CUR); localStorage.removeItem(KEY_HIST); init(); }
+  };
+
+})();
+</script>
+</body>
+</html>
