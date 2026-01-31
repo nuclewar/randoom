@@ -51,11 +51,11 @@ body {
 }
 
 .random-bg-1{
-  background: url("../images/body-map-1.png") no-repeat right bottom;
+  background: #ECFFDC40 url("../images/body-map-1.png") no-repeat right bottom;
 }
 
 .random-bg-2{
-  background: url("../images/body-map-2.png") no-repeat right bottom;
+  background: #ECFFDC40 url("../images/body-map-2.png") no-repeat right bottom;
 }
 
 
@@ -140,3 +140,4 @@ body {
     background: transparent;
   }
 }
+
