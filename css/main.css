@@ -84,7 +84,7 @@ body {
 /*weather widget START*/
 
 .weatherParentContainer{
-  width: 95vw;
+  width: 96vw;
   overflow: hidden;
 }
 
@@ -98,7 +98,7 @@ body {
 .weatherMainContainer > div{
  margin: 0 !important;
  overflow: hidden;
- flex: 1 0 auto;
+ flex: 1 0 120px;
  border-radius: 4px;
  /* border-color: var(--bs-gray-dark) !important; */
 }

@@ -3,7 +3,8 @@
 <html lang="en">
 
 <head>
-  <meta name="generator" content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+  <meta name="generator"
+    content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,7 +16,8 @@
   <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,700,900" rel="stylesheet" />
   <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
 
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
   <link type="text/css" rel="stylesheet" href="css/main.css" />
 
   <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -27,101 +29,125 @@
 
 <body>
 
- <div class="mainWrapper rounded border-xl shadow">
-  <div data-include="header"></div>
+  <div class="mainWrapper rounded border-xl shadow">
+    <div data-include="header"></div>
 
-  <!-- Weather START -->
-  <div class="container-fluid p-3">
-    <h2 class="h5">
-      <i class="fas fa-temperature-low text-primary"></i> Local weather
-    </h2>
-    <div class="weatherParentContainer">
-      <div class="weatherMainContainer d-flex justify-content-between">
-       <div id="cont_256aa846e2a05ac12a813d31392c3e8d"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/256aa846e2a05ac12a813d31392c3e8d"></script></div>
-       <div id="cont_8914fe6e0aefd74ae1de87149580ec4c"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/8914fe6e0aefd74ae1de87149580ec4c"></script></div>
-       <div id="cont_3e514771a130252571ef1cf39943b5ad"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/3e514771a130252571ef1cf39943b5ad"></script></div>
-       <div id="cont_67ff98b61fa41635601efae1f0706b43"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/67ff98b61fa41635601efae1f0706b43"></script></div>
-       <div id="cont_e6a644957e015682a9a2814ba9fe2350"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/e6a644957e015682a9a2814ba9fe2350"></script></div>
-       <div id="cont_d95e5295233c2685afad481f718f9c34"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/d95e5295233c2685afad481f718f9c34"></script></div>
-       <div id="cont_3098a3b3aebd56dd4752247e2c09b0c3"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/3098a3b3aebd56dd4752247e2c09b0c3"></script></div>
-       <!-- <div id="cont_7231a70ac5069d45d4e1d200a8238011"><script type="text/javascript" async src="https://www.theweather.com/wid_loader/7231a70ac5069d45d4e1d200a8238011"></script></div> -->
-     </div>
-   </div>
- </div>
- <!-- Weather END -->
-
- <!-- Sunrise/Sunset|Moon START -->
- <div class="container-fluid p-3">
-   <h2 class="h5">
-    <i class="far fa-sun text-primary"></i> Sunrise/Sunset - Moon Phases
-  </h2>
-  <div class="row">
-    <div class="col-12 col-md-8 mb-3 mb-xl-0">
-      <div class="mb-3">
-        <label class="mb-2">Choose date</label>
-        <select id="formYear" class="form-select w-50" aria-label="Default select example">
-          <option value="--">please select</option>
-        </select>
-      </div>
-      <div class="mb-2">
-        <span class="fontBold textBlue mr-2">Sunrise:</span>
-        <span id="sunrise"></span>
-      </div>
-      <div class="mb-2">
-        <span class="fontBold textBlue mr-2">Sunset:</span>
-        <span id="sunset"></span>
+    <!-- Weather START -->
+    <div class="container-fluid p-3">
+      <h2 class="h5 fontBold">
+        <i class="fas fa-temperature-low text-secondary"></i> Local weather
+      </h2>
+      <div class="weatherParentContainer">
+        <div class="weatherMainContainer d-flex justify-content-between">
+          <div id="ww_9210086e2b8f0" v='1.3' loc='id'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl11843"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
+            <a href="https://weatherwidget.org/" id="ww_9210086e2b8f0_u" target="_blank">Free weather widget</a>
+          </div>
+          <script async src="https://app3.weatherwidget.org/js/?id=ww_9210086e2b8f0"></script>
+          <div id="ww_db6375efc0c2f" v='1.3' loc='id'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl3090"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
+            More forecasts: <a href="https://oneweather.org/tr/ankara/15_days/" id="ww_db6375efc0c2f_u"
+              target="_blank">Ankara hava durumu 15 günlük</a></div>
+          <script async src="https://app3.weatherwidget.org/js/?id=ww_db6375efc0c2f"></script>
+          <div id="ww_e82892fa7e1ba" v='1.3' loc='id'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl3056"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
+            <a href="https://weatherwidget.org/" id="ww_e82892fa7e1ba_u" target="_blank">Widget weather</a>
+          </div>
+          <script async src="https://app3.weatherwidget.org/js/?id=ww_e82892fa7e1ba"></script>
+          <div id="ww_2cccc3d7eb897" v='1.3' loc='id'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl3912"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
+            <a href="https://weatherwidget.org/" id="ww_2cccc3d7eb897_u" target="_blank">Free weather widget</a>
+          </div>
+          <script async src="https://app3.weatherwidget.org/js/?id=ww_2cccc3d7eb897"></script>
+          <div id="ww_79e444a1da095" v='1.3' loc='id'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl9044"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
+            More forecasts: <a href="https://oneweather.org/fi/jyvaskyla/25_days/" id="ww_79e444a1da095_u"
+              target="_blank">oneweather.org/fi/jyvaskyla/25_days</a></div>
+          <script async src="https://app3.weatherwidget.org/js/?id=ww_79e444a1da095"></script>
+          <div id="ww_a8f6615780e4f" v='1.3' loc='id'
+            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl11330"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
+            <a href="https://weatherwidget.org/" id="ww_a8f6615780e4f_u" target="_blank">Widget weather</a>
+          </div>
+          <script async src="https://app3.weatherwidget.org/js/?id=ww_a8f6615780e4f"></script>
+        </div>
       </div>
     </div>
-    <div class="col-12 col-md-4">
-     <!-- // Begin Current Moon Phase HTML (c) MoonConnection.com // -->
-     <table cellpadding="0" cellspacing="0" border="0" width="214">
-      <tr>
-        <td align="center"><img src="https://www.moonmodule.com/cs/dm/s.gif" width="1" height="136" border="0" alt="" /></td>
-        <td background="https://www.moonmodule.com/cs/dm/hn.gif" valign="bottom" align="center">
-          <a href="https://www.moonconnection.com" target="mc_moon_ph"><img src="https://www.moonmodule.com/cs/dm/s.gif" width="212" height="90" border="0" alt="" /></a>
-          <img src="https://www.moonmodule.com/cs/dm/s.gif" width="1" height="4" border="0" alt="" />
-        </td>
-        <td><img src="https://www.moonmodule.com/cs/dm/s.gif" width="1" height="136" border="0" alt="" /></td>
-      </tr>
-    </table>
-    <!-- // end moon phase HTML // -->
+    <!-- Weather END -->
+
+    <!-- Sunrise/Sunset|Moon START -->
+    <div class="container-fluid p-3">
+      <h2 class="h5 fontBold">
+        <i class="far fa-sun text-secondary"></i> Sunrise/Sunset - Moon Phases
+      </h2>
+      <div class="row">
+        <div class="col-12 col-md-8 mb-3 mb-xl-0">
+          <div class="mb-3">
+            <label class="mb-2">Choose date</label>
+            <select id="formYear" class="form-select w-50" aria-label="Default select example">
+              <option value="--">please select</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <span class="fontBold textBlue mr-2">Sunrise:</span>
+            <span id="sunrise"></span>
+          </div>
+          <div class="mb-2">
+            <span class="fontBold textBlue mr-2">Sunset:</span>
+            <span id="sunset"></span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <!-- // Begin Current Moon Phase HTML (c) MoonConnection.com // -->
+          <table cellpadding="0" cellspacing="0" border="0" width="214">
+            <tr>
+              <td align="center"><img src="https://www.moonmodule.com/cs/dm/s.gif" width="1" height="136" border="0"
+                  alt="" /></td>
+              <td background="https://www.moonmodule.com/cs/dm/hn.gif" valign="bottom" align="center">
+                <a href="https://www.moonconnection.com" target="mc_moon_ph"><img
+                    src="https://www.moonmodule.com/cs/dm/s.gif" width="212" height="90" border="0" alt="" /></a>
+                <img src="https://www.moonmodule.com/cs/dm/s.gif" width="1" height="4" border="0" alt="" />
+              </td>
+              <td><img src="https://www.moonmodule.com/cs/dm/s.gif" width="1" height="136" border="0" alt="" /></td>
+            </tr>
+          </table>
+          <!-- // end moon phase HTML // -->
+        </div>
+      </div>
+    </div>
+    <!-- Sunrise/Sunset|Moon END -->
+
+    <!-- Generate Randoms START -->
+    <div class="container-fluid p-4 p-xl-3 mb-4 mb-xl-5 randomData">
+      <h2 class="h5 fontBold">
+        <i class="fas fa-random text-secondary"></i> Random Stuff
+      </h2>
+      <div class="row mb-3">
+        <div class="col-5 col-md-2">
+          <span class="fontBold">Mission Hour:</span>
+        </div>
+        <div class="col-7 col-md-10">
+          <span id="missionHour">00</span>.00
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-5 col-md-2">
+          <span class="fontBold">Cloud Preset:</span>
+        </div>
+        <div class="col-7 col-md-10">
+          <span id="cloudType"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button id="generate" class="btn btn-outline-secondary">Generate</button>
+        </div>
+      </div>
+    </div>
+    <!-- Generate Randoms END -->
+
+
+    <div data-include="footer"></div>
   </div>
-</div>
-</div>
-<!-- Sunrise/Sunset|Moon END -->
-
-<!-- Generate Randoms START -->
-<div class="container-fluid p-4 p-xl-3 mb-4 mb-xl-5 randomData">
- <h2 class="h5 fontBold">
-  <i class="fas fa-random text-primary"></i> Random Stuff
-</h2>
-<div class="row mb-3">
- <div class="col-5 col-md-2">
-  <span class="fontBold">Mission Hour:</span>
-</div>
-<div class="col-7 col-md-10">
- <span id="missionHour">00</span>.00
-</div>
-</div>
-<div class="row mb-3">
- <div class="col-5 col-md-2">
-  <span class="fontBold">Cloud Preset:</span>
-</div>
-<div class="col-7 col-md-10">
-  <span id="cloudType"></span>
-</div>
-</div>
-<div class="row">
- <div class="col-12">
-  <button id="generate" class="btn btn-outline-secondary">Generate</button>
-</div>
-</div>
-</div>
-<!-- Generate Randoms END -->
-
-
-<div data-include="footer"></div>
-</div>
 
 </body>
 
