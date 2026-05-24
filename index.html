@@ -1,143 +1,480 @@
 <!DOCTYPE html>
-<!--to modify-->
-<html lang="en">
-
+<html lang="en" class="dark">
 <head>
-  <meta name="generator"
-    content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RanDoom</title>
-
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
-
-  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,700,900" rel="stylesheet" />
-  <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
-
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-  <link type="text/css" rel="stylesheet" href="css/main.css" />
-
-  <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCS Dynamic Mission Briefing</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
+                    },
+                    colors: {
+                        dcs: {
+                            bg: '#0f172a', // slate-900
+                            card: '#1e293b', // slate-800
+                            accent: '#10b981', // emerald-500 (radar green)
+                            text: '#f8fafc', // slate-50
+                            muted: '#94a3b8' // slate-400
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at bottom left, rgba(56, 189, 248, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+        }
+        .data-value {
+            font-family: 'Share Tech Mono', monospace;
+            color: #10b981;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Custom Scrollbar for map list */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
 </head>
+<body class="antialiased p-4 md:p-8 font-sans">
 
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end pb-4 border-b border-slate-700/50 gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <i class="fa-solid fa-plane-lock text-dcs-accent text-3xl"></i>
+                    <h1 class="text-3xl md:text-4xl font-bold tracking-tight">DCS METAR & Briefing</h1>
+                </div>
+                <p class="text-dcs-muted text-sm uppercase tracking-widest">Dynamic Weather & Mission Planning</p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto flex-wrap lg:flex-nowrap justify-start md:justify-end">
+                <div class="glass-panel px-6 py-3 rounded-lg shadow-lg flex items-center gap-4">
+                    <div class="text-2xl text-amber-500 drop-shadow-md">
+                        <i class="fa-solid fa-sun"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-dcs-muted uppercase tracking-wider">Local Sun (Today)</div>
+                        <div id="local-sun" class="data-value text-sm md:text-lg font-bold text-white">
+                            <span class="text-slate-400 text-sm animate-pulse font-sans">Locating...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel px-6 py-3 rounded-lg shadow-lg flex items-center gap-4">
+                    <div id="moon-icon" class="text-2xl drop-shadow-md grayscale opacity-90 transition-all hover:grayscale-0">🌑</div>
+                    <div>
+                        <div class="text-xs text-dcs-muted uppercase tracking-wider">Lunar Phase</div>
+                        <div id="moon-phase" class="data-value text-lg font-bold text-white">--</div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel px-6 py-3 rounded-lg shadow-lg flex items-center gap-4">
+                    <i class="fa-regular fa-calendar-days text-dcs-muted text-xl"></i>
+                    <div>
+                        <div class="text-xs text-dcs-muted uppercase tracking-wider">Current Zulu Date</div>
+                        <div id="current-date" class="data-value text-lg font-bold text-white">--/--/----</div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-earth-americas text-dcs-muted"></i> Theater Weather Conditions
+                    </h2>
+                    <span class="text-xs text-dcs-muted bg-slate-800 px-2 py-1 rounded">LIVE REAL-WORLD DATA</span>
+                </div>
+                
+                <div id="maps-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    </div>
+            </div>
 
-<body>
+            <div class="space-y-6">
+                
+                <div class="glass-panel rounded-xl p-6 shadow-xl">
+                    <h2 class="text-xl font-semibold flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-stopwatch text-dcs-muted"></i> Mission Randomizer
+                    </h2>
+                    
+                    <div class="bg-slate-900 rounded-lg p-6 mb-6 text-center border border-slate-700/50 shadow-inner">
+                        <div class="text-dcs-muted text-sm mb-2 uppercase tracking-wide">Takeoff Time</div>
+                        <div id="random-time-display" class="data-value text-5xl font-bold mb-2 transition-all duration-300">
+                            --:--
+                        </div>
+                        <div id="random-time-context" class="text-sm font-medium text-slate-400">
+                            Click to generate
+                        </div>
+                    </div>
+                    
+                    <button id="generate-btn" class="w-full bg-dcs-accent hover:bg-emerald-400 text-slate-900 font-bold py-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        <i class="fa-solid fa-shuffle mr-2"></i> GENERATE START TIME
+                    </button>
+                </div>
 
-  <div class="mainWrapper rounded border-xl shadow">
-    <div data-include="header"></div>
+                <div class="glass-panel rounded-xl p-5 border-l-4 border-l-blue-500 text-sm text-slate-300">
+                    <h3 class="font-bold text-white mb-1"><i class="fa-solid fa-circle-info mr-1"></i> About Data</h3>
+                    <p>Weather data is fetched live using coordinates for the approximate center/main operating area of each DCS theater.</p>
+                </div>
+				
+				<div>
+				<h3 class="font-bold text-white mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Old app</h3>
+				<a href="old.html">link</a>
+				</div>
 
-    <!-- Weather START -->
-    <div class="container-fluid p-3">
-      <h2 class="h5 fontBold">
-        <i class="fas fa-temperature-low text-secondary"></i> Local weather
-      </h2>
-      <div class="weatherParentContainer">
-        <div class="weatherMainContainer d-flex justify-content-between">
-          <div id="ww_9210086e2b8f0" v='1.3' loc='id'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl11843"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
-            <a href="https://weatherwidget.org/" id="ww_9210086e2b8f0_u" target="_blank">Free weather widget</a>
-          </div>
-          <script async src="https://app3.weatherwidget.org/js/?id=ww_9210086e2b8f0"></script>
-          <div id="ww_db6375efc0c2f" v='1.3' loc='id'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl3090"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
-            More forecasts: <a href="https://oneweather.org/tr/ankara/15_days/" id="ww_db6375efc0c2f_u"
-              target="_blank">Ankara hava durumu 15 günlük</a></div>
-          <script async src="https://app3.weatherwidget.org/js/?id=ww_db6375efc0c2f"></script>
-          <div id="ww_e82892fa7e1ba" v='1.3' loc='id'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl3056"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
-            <a href="https://weatherwidget.org/" id="ww_e82892fa7e1ba_u" target="_blank">Widget weather</a>
-          </div>
-          <script async src="https://app3.weatherwidget.org/js/?id=ww_e82892fa7e1ba"></script>
-          <div id="ww_2cccc3d7eb897" v='1.3' loc='id'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl3912"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
-            <a href="https://weatherwidget.org/" id="ww_2cccc3d7eb897_u" target="_blank">Free weather widget</a>
-          </div>
-          <script async src="https://app3.weatherwidget.org/js/?id=ww_2cccc3d7eb897"></script>
-          <div id="ww_79e444a1da095" v='1.3' loc='id'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl9044"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
-            More forecasts: <a href="https://oneweather.org/fi/jyvaskyla/25_days/" id="ww_79e444a1da095_u"
-              target="_blank">oneweather.org/fi/jyvaskyla/25_days</a></div>
-          <script async src="https://app3.weatherwidget.org/js/?id=ww_79e444a1da095"></script>
-          <div id="ww_a8f6615780e4f" v='1.3' loc='id'
-            a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":["wl11330"],"font":"Arial","sl_ics":"one","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3}'>
-            <a href="https://weatherwidget.org/" id="ww_a8f6615780e4f_u" target="_blank">Widget weather</a>
-          </div>
-          <script async src="https://app3.weatherwidget.org/js/?id=ww_a8f6615780e4f"></script>
+            </div>
         </div>
-      </div>
     </div>
-    <!-- Weather END -->
 
-    <!-- Sunrise/Sunset|Moon START -->
-    <div class="container-fluid p-3">
-      <h2 class="h5 fontBold">
-        <i class="far fa-sun text-secondary"></i> Sunrise/Sunset - Moon Phases
-      </h2>
-      <div class="row">
+    <script>
+        // Set Current Date
+        function updateDate() {
+            const dateEl = document.getElementById('current-date');
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' };
+            dateEl.textContent = now.toLocaleDateString('en-US', options) + ' (Z)';
+        }
+        updateDate();
 
-        <div class="col-12 col-md-8 mb-3 mb-xl-0">
-          <div class="mb-3">
-            <label class="mb-2">Choose date</label>
-            <select id="formYear" class="form-select w-50" aria-label="Default select example">
-              <option value="--">please select</option>
-            </select>
-          </div>
-          <div class="mb-2">
-            <span class="fontBold textBlue mr-2">Sunrise:</span>
-            <span id="sunrise"></span>
-          </div>
-          <div class="mb-2">
-            <span class="fontBold textBlue mr-2">Sunset:</span>
-            <span id="sunset"></span>
-          </div>
-        </div>
-        <div class="col-12 col-md-4">
-         <script type="text/javascript" src="https://moonphases.co.uk/js/widget.js" id="moonphase_widget" widget="tiny" lat="" lng="" date="" tz=""></script>
-        </div>
+        // Calculate and Set Moon Phase
+        function updateMoonPhase() {
+            const now = new Date();
+            let year = now.getFullYear();
+            let month = now.getMonth() + 1;
+            let day = now.getDate();
 
-      </div>
-    </div>
-    <!-- Sunrise/Sunset|Moon END -->
+            // Simple Julian Date calculation for lunar cycles
+            if (month < 3) {
+                year--;
+                month += 12;
+            }
+            month++;
+            
+            const c = 365.25 * year;
+            const e = 30.6 * month;
+            // Total days elapsed since known new moon base
+            let jd = c + e + day - 694039.09; 
+            // Divide by moon cycle (29.53 days)
+            jd /= 29.5305882; 
+            const b = parseInt(jd); 
+            // Get fractional remainder
+            jd -= b; 
+            // Scale to 8 phases
+            let phaseVal = Math.round(jd * 8); 
+            if (phaseVal >= 8) phaseVal = 0; 
 
-    <!-- Generate Randoms START -->
-    <div class="container-fluid p-4 p-xl-3 mb-4 mb-xl-5 randomData">
-      <h2 class="h5 fontBold">
-        <i class="fas fa-random text-secondary"></i> Random Stuff
-      </h2>
-      <div class="row mb-3">
-        <div class="col-5 col-md-2">
-          <span class="fontBold">Mission Hour:</span>
-        </div>
-        <div class="col-7 col-md-10">
-          <span id="missionHour">00</span>.00
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-5 col-md-2">
-          <span class="fontBold">Cloud Preset:</span>
-        </div>
-        <div class="col-7 col-md-10">
-          <span id="cloudType"></span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <button id="generate" class="btn btn-outline-dark">Generate</button>
-        </div>
-      </div>
-    </div>
-    <!-- Generate Randoms END -->
+            const phases = [
+                { name: 'New Moon', emoji: '🌑' },
+                { name: 'Waxing Crescent', emoji: '🌒' },
+                { name: 'First Quarter', emoji: '🌓' },
+                { name: 'Waxing Gibbous', emoji: '🌔' },
+                { name: 'Full Moon', emoji: '🌕' },
+                { name: 'Waning Gibbous', emoji: '🌖' },
+                { name: 'Last Quarter', emoji: '🌗' },
+                { name: 'Waning Crescent', emoji: '🌘' }
+            ];
 
+            const currentPhase = phases[phaseVal];
+            document.getElementById('moon-icon').textContent = currentPhase.emoji;
+            document.getElementById('moon-phase').textContent = currentPhase.name;
+        }
+        updateMoonPhase();
 
-    <div data-include="footer"></div>
-  </div>
+        // DCS Maps coordinates (Approximate main operational areas)
+        const dcsMaps = [
+            { id: 'caucasus', name: 'Caucasus', location: 'Batumi/Tbilisi', lat: 42.0, lon: 42.0 },
+            { id: 'pg', name: 'Persian Gulf', location: 'Dubai/Strait', lat: 25.5, lon: 55.0 },
+            { id: 'syria', name: 'Syria', location: 'Damascus/Coast', lat: 34.5, lon: 36.0 },
+            { id: 'nevada', name: 'Nevada', location: 'Nellis AFB', lat: 36.2, lon: -115.0 },
+            { id: 'marianas', name: 'Marianas', location: 'Guam', lat: 13.5, lon: 144.8 },
+            { id: 'sinai', name: 'Sinai', location: 'Suez/Cairo', lat: 30.0, lon: 33.0 },
+            { id: 'falklands', name: 'South Atlantic', location: 'Falkland Islands', lat: -51.7, lon: -59.5 },
+            { id: 'kola', name: 'Kola', location: 'Murmansk', lat: 68.9, lon: 33.0 },
+            { id: 'iraq', name: 'Iraq', location: 'Baghdad', lat: 33.3, lon: 44.4 }
+        ];
 
+        
+        // Convert wind degrees to Cardinal direction
+        function getWindDirection(degrees) {
+            const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+            const index = Math.round(((degrees %= 360) < 0 ? degrees + 360 : degrees) / 22.5) % 16;
+            return directions[index];
+        }
+
+        // Format ISO time to local readable time (HH:MM)
+        function formatTime(isoString) {
+            if (!isoString) return '--:--';
+            const date = new Date(isoString);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        }
+
+        // Determine icon based on cloud cover
+        function getWeatherIcon(cloudCover) {
+            if (cloudCover < 20) return '<i class="fa-solid fa-sun text-yellow-400"></i>';
+            if (cloudCover < 60) return '<i class="fa-solid fa-cloud-sun text-yellow-200"></i>';
+            if (cloudCover < 90) return '<i class="fa-solid fa-cloud text-gray-400"></i>';
+            return '<i class="fa-solid fa-cloud-showers-heavy text-gray-500"></i>';
+        }
+
+        // Fetch Local Sunrise/Sunset based on IP Geolocation
+        async function updateLocalSun() {
+            const sunEl = document.getElementById('local-sun');
+            try {
+                // Get rough location via IP (no prompt required)
+                const geoResp = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const geoData = await geoResp.json();
+                
+                // Fetch sun data for those coordinates
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${geoData.latitude}&longitude=${geoData.longitude}&daily=sunrise,sunset&timezone=auto`;
+                const weatherResp = await fetch(url);
+                if (!weatherResp.ok) throw new Error('Weather API Error');
+                const data = await weatherResp.json();
+                
+                const sunrise = formatTime(data.daily.sunrise[0]);
+                const sunset = formatTime(data.daily.sunset[0]);
+                
+                sunEl.innerHTML = `
+                    <span class="mr-3"><i class="fa-solid fa-sunrise text-amber-400 mr-1"></i>${sunrise}</span>
+                    <span><i class="fa-solid fa-sunset text-orange-500 mr-1"></i>${sunset}</span>
+                `;
+            } catch (e) {
+                sunEl.innerHTML = '<span class="text-slate-400 text-sm font-sans">Data unavailable</span>';
+                console.error('Sun data error:', e);
+            }
+        }
+        updateLocalSun();
+        
+        const container = document.getElementById('maps-container');
+
+        // Create skeleton loaders
+        function renderSkeletons() {
+            container.innerHTML = '';
+            dcsMaps.forEach(map => {
+                const skeleton = document.createElement('div');
+                skeleton.className = 'glass-panel rounded-xl p-5 animate-pulse';
+                skeleton.innerHTML = `
+                    <div class="h-6 bg-slate-700 rounded w-1/2 mb-4"></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="h-10 bg-slate-700 rounded"></div>
+                        <div class="h-10 bg-slate-700 rounded"></div>
+                        <div class="h-10 bg-slate-700 rounded"></div>
+                        <div class="h-10 bg-slate-700 rounded"></div>
+                    </div>
+                `;
+                container.appendChild(skeleton);
+            });
+        }
+
+        // Create actual map cards
+        function renderCard(map, data) {
+            const card = document.createElement('div');
+            // Removed 'p-5' from the outer div and added 'overflow-hidden'
+            card.className = 'glass-panel rounded-xl hover:bg-slate-800/80 transition-colors border border-slate-700/50 hover:border-dcs-accent/50 overflow-hidden';
+            
+            // Extract data with fallbacks
+            const temp = data?.current?.temperature_2m !== undefined ? `${Math.round(data.current.temperature_2m)}°C` : 'N/A';
+            const clouds = data?.current?.cloud_cover !== undefined ? `${data.current.cloud_cover}%` : 'N/A';
+            const cloudIcon = data?.current?.cloud_cover !== undefined ? getWeatherIcon(data.current.cloud_cover) : '<i class="fa-solid fa-circle-question text-dcs-muted"></i>';
+            
+            const windSpeed = data?.current?.wind_speed_10m !== undefined ? `${Math.round(data.current.wind_speed_10m)} mph` : 'N/A';
+            const windDirDeg = data?.current?.wind_direction_10m;
+            const windDirText = windDirDeg !== undefined 
+                ? `<span class="flex items-center justify-end gap-1">${getWindDirection(windDirDeg)} <i class="fa-solid fa-arrow-down text-dcs-accent ml-1" style="transform: rotate(${windDirDeg}deg)"></i></span>` 
+                : 'N/A';
+            
+            const sunrise = data?.daily?.sunrise?.[0] ? formatTime(data.daily.sunrise[0]) : 'N/A';
+            const sunset = data?.daily?.sunset?.[0] ? formatTime(data.daily.sunset[0]) : 'N/A';
+
+            card.innerHTML = `
+                <div class="p-5 cursor-pointer flex justify-between items-center group" onclick="const content = this.nextElementSibling; const icon = this.querySelector('.expand-icon'); content.classList.toggle('hidden'); icon.classList.toggle('rotate-180');">
+                    <div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-dcs-accent transition-colors">${map.name}</h3>
+                        <p class="text-xs text-dcs-muted"><i class="fa-solid fa-location-crosshairs mr-1"></i>${map.location}</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="text-2xl">${cloudIcon}</div>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 expand-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="hidden px-5 pb-5">
+                    <div class="pt-4 border-t border-slate-700/50 grid grid-cols-2 gap-y-4 gap-x-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-900/50 flex items-center justify-center text-red-400">
+                                <i class="fa-solid fa-temperature-half"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-slate-400 uppercase">Temp</div>
+                                <div class="data-value text-sm text-white">${temp}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-900/50 flex items-center justify-center text-blue-300">
+                                <i class="fa-solid fa-cloud"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-slate-400 uppercase">Clouds</div>
+                                <div class="data-value text-sm text-white">${clouds}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 col-span-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-900/50 flex items-center justify-center text-emerald-400">
+                                <i class="fa-solid fa-wind"></i>
+                            </div>
+                            <div class="flex-1 flex justify-between">
+                                <div>
+                                    <div class="text-[10px] text-slate-400 uppercase">Wind Speed</div>
+                                    <div class="data-value text-sm text-white">${windSpeed}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-[10px] text-slate-400 uppercase">Direction</div>
+                                    <div class="data-value text-sm text-white">${windDirText}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 col-span-2 mt-2 pt-2 border-t border-slate-800">
+                            <div class="w-full flex justify-between text-sm">
+                                <div>
+                                    <div class="text-[10px] text-slate-400 uppercase">Sunrise</div>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <i class="fa-solid fa-sunrise text-amber-500"></i>
+                                        <span class="data-value text-white">${sunrise}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-[10px] text-slate-400 uppercase">Sunset</div>
+                                    <div class="flex items-center gap-2 mt-0.5 justify-end">
+                                        <i class="fa-solid fa-sunset text-orange-600"></i>
+                                        <span class="data-value text-white">${sunset}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        
+        async function fetchAllWeather() {
+            renderSkeletons();
+            
+            try {
+                // We use Promise.all to fetch all maps concurrently
+                const fetchPromises = dcsMaps.map(async (map) => {
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${map.lat}&longitude=${map.lon}&current=temperature_2m,cloud_cover,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset&wind_speed_unit=mph&timezone=auto`;
+                    
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) throw new Error('API Error');
+                        const data = await response.json();
+                        return { map, data };
+                    } catch (err) {
+                        console.error(`Failed to fetch for ${map.name}:`, err);
+                        return { map, data: null }; // Return null data to trigger fallback UI
+                    }
+                });
+
+                const results = await Promise.all(fetchPromises);
+                
+                // Clear skeletons and render real data
+                container.innerHTML = '';
+                results.forEach(result => {
+                    container.appendChild(renderCard(result.map, result.data));
+                });
+
+            } catch (error) {
+                console.error("Global fetch error:", error);
+                container.innerHTML = '<div class="col-span-2 text-red-400 p-4 bg-red-900/20 rounded border border-red-900/50">Error connecting to weather service. Please refresh.</div>';
+            }
+        }
+
+        // Initialize fetch on load
+        fetchAllWeather();
+
+        
+        const generateBtn = document.getElementById('generate-btn');
+        const timeDisplay = document.getElementById('random-time-display');
+        const timeContext = document.getElementById('random-time-context');
+
+        function getContext(h) {
+            if (h >= 5 && h < 8) return 'Dawn / Early Morning';
+            if (h >= 8 && h < 12) return 'Morning';
+            if (h >= 12 && h < 17) return 'Afternoon';
+            if (h >= 17 && h < 20) return 'Dusk / Evening';
+            return 'Night Operations';
+        }
+
+        generateBtn.addEventListener('click', () => {
+            // Add a brief animation effect
+            timeDisplay.style.opacity = '0.5';
+            timeDisplay.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                // Generate Hours (0-23) and Minutes (0-59)
+                const hours = Math.floor(Math.random() * 24);
+                const minutes = Math.floor(Math.random() * 60);
+                
+                // Format to HH:MM with leading zeros
+                const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+                
+                timeDisplay.textContent = formattedTime;
+                
+                // Set context (Dawn, Day, Night, etc.)
+                const contextText = getContext(hours);
+                timeContext.innerHTML = `<span class="${hours < 6 || hours > 19 ? 'text-indigo-400' : 'text-amber-400'}">${contextText}</span>`;
+                
+                // Restore animation
+                timeDisplay.style.opacity = '1';
+                timeDisplay.style.transform = 'scale(1)';
+                
+                // Flash the button green briefly to confirm action
+                const originalColor = generateBtn.className;
+                generateBtn.classList.add('bg-white');
+                setTimeout(() => {
+                    generateBtn.classList.remove('bg-white');
+                }, 150);
+
+            }, 150);
+        });
+
+    </script>
 </body>
-
 </html>
