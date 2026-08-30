@@ -309,7 +309,17 @@
             const clouds = data?.current?.cloud_cover !== undefined ? `${data.current.cloud_cover}%` : 'N/A';
             const cloudIcon = data?.current?.cloud_cover !== undefined ? getWeatherIcon(data.current.cloud_cover) : '<i class="fa-solid fa-circle-question text-dcs-muted"></i>';
             
-            const windSpeed = data?.current?.wind_speed_10m !== undefined ? `${Math.round(data.current.wind_speed_10m)} mph` : 'N/A';
+            // Calculate wind speed in multiple units
+            let windSpeed = 'N/A';
+            if (data?.current?.wind_speed_10m !== undefined) {
+                const mph = data.current.wind_speed_10m;
+                const knots = Math.round(mph * 0.868976);
+                const ms = Math.round(mph * 0.44704);
+                const kmh = Math.round(mph * 1.60934);
+                
+                windSpeed = `${knots} kn, ${Math.round(mph)} mph, ${ms} ms, ${kmh} kmh`;
+            }
+
             const windDirDeg = data?.current?.wind_direction_10m;
             const windDirText = windDirDeg !== undefined 
                 ? `<span class="flex items-center justify-end gap-1">${getWindDirection(windDirDeg)} <i class="fa-solid fa-arrow-down text-dcs-accent ml-1" style="transform: rotate(${windDirDeg}deg)"></i></span>` 
@@ -392,7 +402,6 @@
             return card;
         }
 
-        
         async function fetchAllWeather() {
             renderSkeletons();
             
@@ -429,7 +438,6 @@
         // Initialize fetch on load
         fetchAllWeather();
 
-        
         const generateBtn = document.getElementById('generate-btn');
         const timeDisplay = document.getElementById('random-time-display');
         const timeContext = document.getElementById('random-time-context');
